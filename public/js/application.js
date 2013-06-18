@@ -27,5 +27,32 @@ $(document).ready(function() {
     });
   }
 
+  $('#submit_tweet_form').on('submit', function(e) {
+    e.preventDefault();
+    
+    var formData = $(this).serialize();
+    $(this).children().attr('disabled', 'disabled');
+    $(this).next().show();
+    $('.message').remove();
+
+    $.ajax({
+      type: 'post',
+      url: '/tweet',
+      data: formData
+    }).done(function(response) {
+      console.log(response);
+      $('#submit_tweet_form').children().removeAttr('disabled');
+      $('#submit_tweet_form').next().hide();
+      if (response == "200") {
+        $(".container").append("<p class='message'>Your tweet was posted successfully!</p>");
+      }
+      else
+      {
+        $(".container").append("<p class='message'>There was an error processing your tweet...</p>");
+      }
+      setTimeout(function(){$('.message').animate({ opacity: '0' }, 1000);}, 1000);
+    });
+  });
+
 
 });

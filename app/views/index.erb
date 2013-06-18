@@ -1,23 +1,20 @@
 <div class="container">
-  <h1>Welcome to Sinatra!</h1>
-  <p>Hello, world!</p>
+  <h1>Welcome to Tweet Now!</h1>
 
-  <table>
-    <tr>
-      <th>File Description</th>
-      <th>File Location</th>
-    </tr>
-    <tr>
-      <td>This view file</td>
-      <td><code><%= __FILE__.gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The layout file</td>
-      <td><code><%= File.expand_path('../layout.erb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The current controller</td>
-      <td><code><%= File.expand_path('../../controllers/index.rb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-  </table>
+  <form action='/user' method="get">
+    <input name="username" placeholder="Enter username...">
+    <input type="submit" value="fetch tweets">
+  </form>
+
+  <br><br>
+
+  <form id="submit_tweet_form" action='/tweet' method="post">
+    <textarea rows="3" cols="50" name="tweet" placeholder="Type your tweet here..."></textarea>
+    <input type="submit" value="post tweet">
+  </form> 
+
+  <div class="waiting_message tweet_post" style="display: none">
+     <p> Please wait your tweet is being processed...</p>
+     <img src="/ajax-loader.gif">
+  </div>
 </div>

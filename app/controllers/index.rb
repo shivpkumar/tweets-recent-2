@@ -3,6 +3,11 @@ get '/' do
   erb :index
 end
 
+get '/user' do
+  username = params[:username]
+  redirect "/#{username}"
+end
+
 get '/:username' do
  # gets the most recent tweet from 
  @user = User.find_or_create_by_username(params[:username])
@@ -16,7 +21,7 @@ get '/:username' do
   else
     @status = "fresh"
   end
-  @tweets = @user.tweets
+  @tweets = @user.tweets.order("date_tweeted_on DESC")
  end
 
  erb :recent_tweets
@@ -26,10 +31,21 @@ post '/:username/tweets' do
   content_type 'html'
   user = User.find_by_username(params[:username])
   user.fetch_tweets!
-  @tweets = user.tweets
+  @tweets = user.tweets.order("date_tweeted_on DESC")
   erb :tweets
 end
 
+post '/tweet' do
+  p "@@@@@@@@@@@@@@@@ #{params}"
+  tweet = params[:tweet]
+  begin
+    username = Twitter.client.user.username
+    Twitter.update(tweet)
+  rescue Twitter::Error::Unauthorized, e
+    return "500"
+  end  
+  return "200"
+end
 
 get '/:username/bio' do
  # gets the most recent tweet from 

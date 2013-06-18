@@ -1,6 +1,6 @@
 <div class="tweets">
   <% @tweets.each do |tweet| %>
     <p><%="#{tweet.text}"%> </p>
-    <p><%="#{tweet.created_at.strftime('%A, %b %-d, %Y')}"%></p>
+    <p><%="#{tweet.date_tweeted_on.strftime('%A, %b %-d, %Y, %l:%M %P')}"%></p>
   <% end %>
 </div>

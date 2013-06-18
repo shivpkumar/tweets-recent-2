@@ -1,12 +1,10 @@
 class User < ActiveRecord::Base
   # Remember to create a migration!
 
-  before_save :avg_stale_threshold
-
   has_many :tweets
 
   def tweets_stale?
-    self.tweets.order("created_at").first.stale?
+    self.tweets.order("date_tweeted_on").first.stale?
   end
 
   def fetch_tweets!
@@ -21,6 +19,7 @@ class User < ActiveRecord::Base
     user = Twitter.user(self.username)
     self.description = user.description
     self.profile_image_url = user.profile_image_url
+    avg_stale_threshold
     self.save
   end
 
@@ -37,10 +36,10 @@ class User < ActiveRecord::Base
     tweet_date_diffs = []
 
     array_of_dates.each_cons(2) do |pair|
-      tweet_date_diffs << (pair[0] - pair[1])
+      tweet_date_diffs << (pair[1] - pair[0])
     end
 
-    self.stale_threshold = tweet_date_diffs.reduce(:+)/tweet_date_diffs.length.to_f    
+    self.stale_threshold = tweet_date_diffs.reduce(:+)/tweet_date_diffs.length.to_f
   end
 
 end
