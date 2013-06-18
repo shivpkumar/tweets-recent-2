@@ -2,24 +2,24 @@
   <h1>Welcome to Sinatra!</h1>
   <p>Hello, world!</p>
 
-   <% if @tweets %>
+   <% if @user.description %>
 
 
     <% if @status == "stale" %>
-      <div class="waiting_message tweets">
-        <p> Please wait your tweets are loading...</p>
+      <div class="waiting_message info">
+        <p> Please wait your bio is loading...</p>
         <img src="/ajax-loader.gif">
       </div>
     <% end %>
 
-    
-    <%= erb :tweets %> 
+  
+  <%= erb :info %>
   
 
   <% else %>
 
-      <div class="waiting_message tweets">
-        <p> Please wait your tweets are loading...</p>
+      <div class="waiting_message info">
+        <p> Please wait your bio is loading...</p>
         <img src="/ajax-loader.gif">
       </div>
 

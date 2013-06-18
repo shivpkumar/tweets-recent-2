@@ -4,7 +4,7 @@ class Tweet < ActiveRecord::Base
   belongs_to :user
 
   def stale?
-    (Date.today - self.date_tweeted_on).to_i > self.user.stale_threshold
+    (Time.now - self.date_tweeted_on) > self.user.stale_threshold
   end
 
 
